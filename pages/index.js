@@ -7,12 +7,14 @@ import Link from "next/link";
 
 export const getStaticProps = async () => {
   const products = await fetchAllProducts();
+
   return {
-    props: { products: products?.data?.allContentfulProduct?.nodes },
+    props: { products: products?.data?.productCollection?.items },
   };
 };
 
 export default function Home({ products }) {
+  console.log(JSON.stringify(products));
   return (
     <div className="bg-white min-h-screen h-full">
       <NavBar />
@@ -24,7 +26,7 @@ export default function Home({ products }) {
         <div className="grid grid-cols-1 gap-y-4 sm:grid-cols-2 sm:gap-x-6 sm:gap-y-10 lg:grid-cols-3 lg:gap-x-8">
           {products.map((product) => (
             <div
-              key={product.id}
+              key={product.name}
               className="group relative flex flex-col overflow-hidden rounded-lg border border-gray-200 bg-white"
             >
               <div className="aspect-h-4 aspect-w-3 bg-gray-200 sm:aspect-none group-hover:opacity-75 sm:h-96">
@@ -38,16 +40,14 @@ export default function Home({ products }) {
               </div>
               <div className="flex flex-1 flex-col space-y-2 p-4">
                 <h3 className="text-sm font-medium text-gray-900">
-                  <Link href={product.href || "/"}>
+                  <Link href={product?.href || "/"}>
                     <span aria-hidden="true" className="absolute inset-0" />
                     {product.name}
                   </Link>
                 </h3>
                 <p className="text-sm text-gray-500">{product.description}</p>
                 <div className="flex flex-1 flex-col justify-end">
-                  <p className="text-base font-medium text-gray-900">
-                    £{product.price}
-                  </p>
+                  <p className="text-base font-medium text-gray-900"></p>
                 </div>
               </div>
             </div>
